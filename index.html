@@ -73,7 +73,7 @@
         }
 
         .legend-item:hover {
-            color: #FF5733;
+            color: #000;
         }
 
         .legend-box {
@@ -85,7 +85,15 @@
 
         .chart-container svg {
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
+            overflow: visible;
+        }
+
+        .icon {
+            width: 50px; 
+            height: 50px;
+            object-fit: contain;
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -100,7 +108,7 @@
             For me, anime openings are more than just background tracks; they’re my go-to playlist. I listen to them when I work, when I train, and when I need motivation. The way these songs fuse powerful instrumentals, deep emotions, and unforgettable melodies makes them an essential part of my everyday life. This project is my way of celebrating the most legendary anime openings—the ones that have dominated playlists, racked up millions of streams, and left a lasting impact on anime culture.
         </p>
         <p>
-            Using <strong>Proportional Symbol Visualization</strong>, I’ll showcase the top 20 most popular anime openings as of January 2025. The bigger the circle, the more popular the song—allowing us to visually grasp which openings have made the biggest mark in anime history.
+            Using <strong>Proportional Symbol Visualization</strong>, I’ll showcase the top 20 most popular anime openings as of August 2024. The bigger the circle, the more popular the song—allowing us to visually grasp which openings have made the biggest mark in anime history.
         </p>
     </div>
 
@@ -111,13 +119,13 @@
     </div>
 
     <div class="legend-container">
-        <div class="legend-item"><div class="legend-box" style="background: #FF5733;"></div> Shonen</div>
-        <div class="legend-item"><div class="legend-box" style="background: #FFC300;"></div> Drama</div>
-        <div class="legend-item"><div class="legend-box" style="background: #C70039;"></div> Seinen</div>
-        <div class="legend-item"><div class="legend-box" style="background: #900C3F;"></div> Supernatural</div>
-        <div class="legend-item"><div class="legend-box" style="background: #3498DB;"></div> Comedy</div>
-        <div class="legend-item"><div class="legend-box" style="background: #FF33A8;"></div> Romance</div>
-        <div class="legend-item"><div class="legend-box" style="background: #8E44AD;"></div> Fantasy</div>
+        <div class="legend-item"><img src="Shonen.png" class="icon" alt="Shonen Icon"><div class="legend-box" style="background: #FF0000;"></div> Shonen</div>
+        <div class="legend-item"><img src="Drama.png" class="icon" alt="Drama Icon"><div class="legend-box" style="background: #00FF00;"></div> Drama</div>
+        <div class="legend-item"><img src="Seinen.png" class="icon" alt="Seinen Icon"><div class="legend-box" style="background: #0000FF;"></div> Seinen</div>
+        <div class="legend-item"><img src="Supernatural.png" class="icon" alt="Supernatural Icon"><div class="legend-box" style="background: #FFFF00;"></div> Supernatural</div>
+        <div class="legend-item"><img src="Comedy.png" class="icon" alt="Comedy Icon"><div class="legend-box" style="background: #FF00FF;"></div> Comedy</div>
+        <div class="legend-item"><img src="Romance.png" class="icon" alt="Romance Icon"><div class="legend-box" style="background: #00FFFF;"></div> Romance</div>
+        <div class="legend-item"><img src="Fantasy.png" class="icon" alt="Fantasy Icon"><div class="legend-box" style="background: #FFA500;"></div> Fantasy</div>
     </div>
 
     <div class="tooltip"></div>
@@ -144,13 +152,23 @@
         ];
 
         const colors = {
-            "Shonen": "#FF5733",
-            "Drama": "#FFC300",
-            "Seinen": "#C70039",
-            "Supernatural": "#900C3F",
-            "Comedy": "#3498DB",
-            "Romance": "#FF33A8",
-            "Fantasy": "#8E44AD"
+            "Shonen": "#FF0000",       // Red
+            "Drama": "#00FF00",        // Green
+            "Seinen": "#0000FF",       // Blue
+            "Supernatural": "#FFFF00", // Yellow
+            "Comedy": "#FF00FF",       // Magenta
+            "Romance": "#00FFFF",      // Cyan
+            "Fantasy": "#FFA500"       // Orange
+        };
+
+        const icons = {
+            "Shonen": "Shonen.png",
+            "Drama": "Drama.png",
+            "Seinen": "Seinen.png",
+            "Supernatural": "Supernatural.png",
+            "Comedy": "Comedy.png",
+            "Romance": "Romance.png",
+            "Fantasy": "Fantasy.png"
         };
 
         const width = 800;
@@ -167,15 +185,25 @@
             .force("collision", d3.forceCollide(d => d.views / 5))
             .on("tick", ticked);
 
-        const nodes = svg.selectAll("circle")
+        const nodes = svg.selectAll("g")
             .data(data)
             .enter()
-            .append("circle")
+            .append("g");
+
+        nodes.append("circle")
             .attr("r", d => d.views / 10)
             .attr("fill", d => colors[d.genre])
             .attr("stroke", "#333")
-            .attr("stroke-width", 1.5)
-            .on("mouseover", function (event, d) {
+            .attr("stroke-width", 1.5);
+
+        nodes.append("image")
+            .attr("xlink:href", d => icons[d.genre])
+            .attr("width", d => d.views / 10)
+            .attr("height", d => d.views / 10)
+            .attr("x", d => -d.views / 20)
+            .attr("y", d => -d.views / 20);
+
+        nodes.on("mouseover", function (event, d) {
                 tooltip.style("visibility", "visible")
                     .html(`<strong style="color: white;"><a href="${d.link}" target="_blank" style="color: white;">${d.title}</a></strong><br>Views: ${d.views}M<br>Genre: ${d.genre}`)
                     .style("left", (event.pageX + 10) + "px")
@@ -189,8 +217,7 @@
             });
 
         function ticked() {
-            nodes.attr("cx", d => d.x)
-                 .attr("cy", d => d.y);
+            nodes.attr("transform", d => `translate(${d.x},${d.y})`);
         }
     </script>
 </body>
