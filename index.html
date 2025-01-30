@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 20 Most Popular Anime Openings (January 2025)</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #333;
+            margin: 30px 0 5px 0; /* Decreased bottom margin */
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #555;
+            text-align: center;
+            margin: 10px 20px;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 20px auto 20px auto; /* Decreased top margin */
+            text-align: center;
+            color: #444;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .legend-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px auto 20px auto; /* Added bottom margin */
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .legend-item:hover {
+            color: #FF5733;
+        }
+
+        .legend-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .chart-container svg {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Top 20 Most Popular Anime Openings (August 2024)</h1>
+
+    <div class="description">
+        <p>
+            Anime openings are more than just theme songs—they set the tone, evoke nostalgia, and, for many fans, become anthems of their lives. From the electric energy of <strong>Guren no Yumiya</strong> (Attack on Titan) to the emotional waves of <strong>Unravel</strong> (Tokyo Ghoul), anime openings transcend borders, uniting fans worldwide through music.
+        </p>
+        <p>
+            For me, anime openings are more than just background tracks; they’re my go-to playlist. I listen to them when I work, when I train, and when I need motivation. The way these songs fuse powerful instrumentals, deep emotions, and unforgettable melodies makes them an essential part of my everyday life. This project is my way of celebrating the most legendary anime openings—the ones that have dominated playlists, racked up millions of streams, and left a lasting impact on anime culture.
+        </p>
+        <p>
+            Using <strong>Proportional Symbol Visualization</strong>, I’ll showcase the top 20 most popular anime openings as of January 2025. The bigger the circle, the more popular the song—allowing us to visually grasp which openings have made the biggest mark in anime history.
+        </p>
+    </div>
+
+    <p>Bubble size represents YouTube views. Hover over to see details.</p>
+
+    <div class="chart-container">
+        <svg width="800" height="600"></svg>
+    </div>
+
+    <div class="legend-container">
+        <div class="legend-item"><div class="legend-box" style="background: #FF5733;"></div> Shonen</div>
+        <div class="legend-item"><div class="legend-box" style="background: #FFC300;"></div> Drama</div>
+        <div class="legend-item"><div class="legend-box" style="background: #C70039;"></div> Seinen</div>
+        <div class="legend-item"><div class="legend-box" style="background: #900C3F;"></div> Supernatural</div>
+        <div class="legend-item"><div class="legend-box" style="background: #3498DB;"></div> Comedy</div>
+        <div class="legend-item"><div class="legend-box" style="background: #FF33A8;"></div> Romance</div>
+        <div class="legend-item"><div class="legend-box" style="background: #8E44AD;"></div> Fantasy</div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <script>
+        const data = [
+            { title: "Oshi no Ko - Idol", views: 500, genre: "Drama", link: "https://www.youtube.com/watch?v=ZRtdQ81jPUQ" },
+            { title: "Jujutsu Kaisen - Kaikai Kitan", views: 371, genre: "Shonen", link: "https://www.youtube.com/watch?v=GwaRztMaoY0" },
+            { title: "BEASTARS - Kaibutsu", views: 358, genre: "Drama", link: "https://www.youtube.com/watch?v=example3" },
+            { title: "Naruto Shippuden - Silhouette", views: 295, genre: "Shonen", link: "https://www.youtube.com/watch?v=dlFA0Zq1k2A" },
+            { title: "My Hero Academia - Peace Sign", views: 292, genre: "Shonen", link: "https://www.youtube.com/watch?v=Q7w5IMyJ3pM" },
+            { title: "Fire Force - Inferno", views: 276, genre: "Shonen", link: "https://www.youtube.com/watch?v=JBqxVX_LXvk" },
+            { title: "Demon Slayer - Zankyou Sanka", views: 221, genre: "Shonen", link: "https://www.youtube.com/watch?v=tLQLa6lM3Us" },
+            { title: "Domestic Girlfriend - Crying for Rain", views: 217, genre: "Drama", link: "https://www.youtube.com/watch?v=0YF8vecQWYs" },
+            { title: "Tokyo Ghoul - Unravel", views: 177, genre: "Seinen", link: "https://www.youtube.com/watch?v=7aMOurgDB-o" },
+            { title: "Noragami - Kyouran Hey Kids!", views: 174, genre: "Supernatural", link: "https://www.youtube.com/watch?v=C-o8pTi6vd8" },
+            { title: "Chainsaw Man - KICKBACK", views: 165, genre: "Shonen", link: "https://www.youtube.com/watch?v=dFlDRhvM4L0" },
+            { title: "Bakemonogatari - Renai Circulation", views: 164, genre: "Romance", link: "https://www.youtube.com/watch?v=uKxyLmbOc0Q" },
+            { title: "No Game No Life - This Game", views: 156, genre: "Fantasy", link: "https://www.youtube.com/watch?v=6CBp4qylX6I" },
+            { title: "Tokyo Revengers - Cry Baby", views: 152, genre: "Shonen", link: "https://www.youtube.com/watch?v=By_JYrhx-WY" },
+            { title: "Demon Slayer - Gurenge", views: 138, genre: "Shonen", link: "https://www.youtube.com/watch?v=pmanD_s7G3U" },
+            { title: "Sword Art Online - Crossing Field", views: 126, genre: "Fantasy", link: "https://www.youtube.com/watch?v=6Y1swEeFwYo" },
+            { title: "SPY x FAMILY - Mixed Nuts", views: 123, genre: "Comedy", link: "https://www.youtube.com/watch?v=CbH2F0kXgTY" }
+        ];
+
+        const colors = {
+            "Shonen": "#FF5733",
+            "Drama": "#FFC300",
+            "Seinen": "#C70039",
+            "Supernatural": "#900C3F",
+            "Comedy": "#3498DB",
+            "Romance": "#FF33A8",
+            "Fantasy": "#8E44AD"
+        };
+
+        const width = 800;
+        const height = 600;
+        const svg = d3.select("svg")
+                      .attr("width", width)
+                      .attr("height", height);
+
+        const tooltip = d3.select(".tooltip");
+
+        const simulation = d3.forceSimulation(data)
+            .force("x", d3.forceX(width / 2).strength(0.05))
+            .force("y", d3.forceY(height / 2).strength(0.05))
+            .force("collision", d3.forceCollide(d => d.views / 5))
+            .on("tick", ticked);
+
+        const nodes = svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("r", d => d.views / 10)
+            .attr("fill", d => colors[d.genre])
+            .attr("stroke", "#333")
+            .attr("stroke-width", 1.5)
+            .on("mouseover", function (event, d) {
+                tooltip.style("visibility", "visible")
+                    .html(`<strong style="color: white;"><a href="${d.link}" target="_blank" style="color: white;">${d.title}</a></strong><br>Views: ${d.views}M<br>Genre: ${d.genre}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("click", function (event, d) {
+                window.open(d.link, "_blank");
+            })
+            .on("mouseout", function () {
+                tooltip.style("visibility", "hidden");
+            });
+
+        function ticked() {
+            nodes.attr("cx", d => d.x)
+                 .attr("cy", d => d.y);
+        }
+    </script>
+</body>
+</html>
